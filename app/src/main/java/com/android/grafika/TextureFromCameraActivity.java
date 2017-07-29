@@ -85,8 +85,8 @@ public class TextureFromCameraActivity extends Activity implements SurfaceHolder
     private static final int DEFAULT_ROTATE_PERCENT = 0;    // 0-100
 
     // Requested values; actual may differ.
-    private static final int REQ_CAMERA_WIDTH = 1280;
-    private static final int REQ_CAMERA_HEIGHT = 720;
+    private static final int REQ_CAMERA_WIDTH = 1920;
+    private static final int REQ_CAMERA_HEIGHT = 1080;
     private static final int REQ_CAMERA_FPS = 30;
 
     // The holder for our SurfaceView.  The Surface can outlive the Activity (e.g. when
@@ -667,6 +667,7 @@ public class TextureFromCameraActivity extends Activity implements SurfaceHolder
 
         @Override   // SurfaceTexture.OnFrameAvailableListener; runs on arbitrary thread
         public void onFrameAvailable(SurfaceTexture surfaceTexture) {
+            Log.i(TAG, "FrameAvailable");
             mHandler.sendFrameAvailable();
         }
 

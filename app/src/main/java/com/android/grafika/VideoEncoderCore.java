@@ -52,7 +52,7 @@ public class VideoEncoderCore {
     private MediaCodec.BufferInfo mBufferInfo;
     private int mTrackIndex;
     private boolean mMuxerStarted;
-
+    private FPSCounter mVideoEncoderFps = new FPSCounter(10);
 
     /**
      * Configures encoder and muxer state, and prepares the input Surface.
@@ -168,6 +168,9 @@ public class VideoEncoderCore {
                 // let's ignore it
             } else {
                 ByteBuffer encodedData = encoderOutputBuffers[encoderStatus];
+                if (mVideoEncoderFps.tick()) {
+                    Log.i(TAG, "Encoder FPS: " + mVideoEncoderFps.getAverageFps());
+                }
                 if (encodedData == null) {
                     throw new RuntimeException("encoderOutputBuffer " + encoderStatus +
                             " was null");

@@ -142,6 +142,8 @@ public class CameraCaptureActivity extends Activity
     // this is static so it survives activity restarts
     private static TextureMovieEncoder sVideoEncoder = new TextureMovieEncoder();
 
+    private FPSCounter mSTFpsCounter = new FPSCounter(10);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -182,7 +184,7 @@ public class CameraCaptureActivity extends Activity
         Log.d(TAG, "onResume -- acquiring camera");
         super.onResume();
         updateControls();
-        openCamera(1280, 720);      // updates mCameraPreviewWidth/Height
+        openCamera(1920, 1080);      // updates mCameraPreviewWidth/Height
 
         // Set the preview aspect ratio.
         AspectFrameLayout layout = (AspectFrameLayout) findViewById(R.id.cameraPreview_afl);
@@ -368,6 +370,9 @@ public class CameraCaptureActivity extends Activity
         // the main UI thread.  Fortunately, requestRender() can be called from any thread,
         // so it doesn't really matter.
         if (VERBOSE) Log.d(TAG, "ST onFrameAvailable");
+        if (mSTFpsCounter.tick()) {
+            Log.i(TAG, "ST FPS: " + mSTFpsCounter.getAverageFps());
+        }
         mGLView.requestRender();
     }
 
