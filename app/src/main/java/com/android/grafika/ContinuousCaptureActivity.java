@@ -56,9 +56,9 @@ public class ContinuousCaptureActivity extends Activity implements SurfaceHolder
         SurfaceTexture.OnFrameAvailableListener {
     private static final String TAG = MainActivity.TAG;
 
-    private static final int VIDEO_WIDTH = 1280;  // dimensions for 720p video
-    private static final int VIDEO_HEIGHT = 720;
-    private static final int DESIRED_PREVIEW_FPS = 15;
+    private static final int VIDEO_WIDTH = 1920;  // dimensions for 720p video
+    private static final int VIDEO_HEIGHT = 1080;
+    private static final int DESIRED_PREVIEW_FPS = 30;
 
     private EglCore mEglCore;
     private WindowSurface mDisplaySurface;
@@ -78,6 +78,8 @@ public class ContinuousCaptureActivity extends Activity implements SurfaceHolder
 
     private MainHandler mHandler;
     private float mSecondsOfVideo;
+
+    private FPSCounter mFpsCounter = new FPSCounter(10);
 
     /**
      * Custom message handler for main UI thread.
@@ -404,6 +406,8 @@ public class ContinuousCaptureActivity extends Activity implements SurfaceHolder
     public void onFrameAvailable(SurfaceTexture surfaceTexture) {
         //Log.d(TAG, "frame available");
         mHandler.sendEmptyMessage(MainHandler.MSG_FRAME_AVAILABLE);
+        mFpsCounter.tick();
+        Log.d(TAG, "ST Avg FPS: " + mFpsCounter.getAverageFps() + ", Instant FPS: " + mFpsCounter.getInstantFps());
     }
 
     /**

@@ -35,6 +35,7 @@ public class LiveCameraActivity extends Activity implements TextureView.SurfaceT
 
     private Camera mCamera;
     private TextureView mTextureView;
+    private FPSCounter mFPSCounter = new FPSCounter(10);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,5 +80,8 @@ public class LiveCameraActivity extends Activity implements TextureView.SurfaceT
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
         // Invoked every time there's a new Camera preview frame
         //Log.d(TAG, "updated, ts=" + surface.getTimestamp());
+        if (mFPSCounter.tick()) {
+            Log.d(TAG, "ST - FPS: " + mFPSCounter.getAverageFps());
+        }
     }
 }

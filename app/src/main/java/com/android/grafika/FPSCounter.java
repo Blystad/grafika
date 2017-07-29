@@ -31,6 +31,15 @@ public class FPSCounter {
             sum += timestamp[i];
         }
 
+        if (sum == 0) return 0;
+
         return (1000 / (sum / count));
+    }
+
+    public double getInstantFps() {
+        long t = timestamp[timestampCounter];
+        if (t == 0) return 0;
+
+        return (1000 / t);
     }
 }

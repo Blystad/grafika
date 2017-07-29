@@ -458,6 +458,8 @@ public class TextureFromCameraActivity extends Activity implements SurfaceHolder
         private int mRotatePercent = DEFAULT_ROTATE_PERCENT;
         private float mPosX, mPosY;
 
+        private FPSCounter mFPSCounter = new FPSCounter(10);
+
 
         /**
          * Constructor.  Pass in the MainHandler, which allows us to send stuff back to the
@@ -667,7 +669,9 @@ public class TextureFromCameraActivity extends Activity implements SurfaceHolder
 
         @Override   // SurfaceTexture.OnFrameAvailableListener; runs on arbitrary thread
         public void onFrameAvailable(SurfaceTexture surfaceTexture) {
-            Log.i(TAG, "FrameAvailable");
+            if (mFPSCounter.tick()) {
+                Log.i(TAG, "ST FPS: " + mFPSCounter.getAverageFps());
+            }
             mHandler.sendFrameAvailable();
         }
 
